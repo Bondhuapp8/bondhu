@@ -8,42 +8,53 @@
 <style>
 * { box-sizing: border-box; }
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f2f5;
-  color: #222;
+ margin: 0;
+ font-family: Arial, sans-serif;
+ background: #f0f2f5;
+ color: #222;
 }
 header {
-  background: #1877f2;
-  color: white;
-  padding: 22px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
+ background: #1877f2;
+ color: white;
+ padding: 22px;
+ text-align: center;
+ font-size: 28px;
+ font-weight: bold;
 }
-.welcome {
-  background: white;
-  margin: 35px 16px;
-  padding: 35px 20px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 3px 12px #ddd;
+.welcome, .register {
+ background: white;
+ margin: 35px 16px;
+ padding: 25px 20px;
+ border-radius: 15px;
+ text-align: center;
+ box-shadow: 0 3px 12px #ddd;
 }
 h2 { color: #1877f2; }
 p { color: #555; }
 button {
-  background: #1877f2;
-  color: white;
-  border: none;
-  padding: 14px 30px;
-  border-radius: 8px;
-  font-size: 17px;
+ background: #1877f2;
+ color: white;
+ border: none;
+ padding: 14px 25px;
+ border-radius: 8px;
+ font-size: 17px;
+ cursor: pointer;
 }
+input {
+ width: 100%;
+ padding: 13px;
+ margin: 8px 0;
+ border: 1px solid #ccc;
+ border-radius: 7px;
+ font-size: 16px;
+}
+.register { display: none; }
 footer {
-  text-align: center;
-  color: #888;
-  margin-top: 40px;
+ text-align: center;
+ color: #888;
+ margin-top: 40px;
 }
+#message { color: green; }
 </style>
 </head>
 <body>
@@ -54,12 +65,36 @@ footer {
 <h2>স্বাগতম Bondhu App-এ!</h2>
 <p>বন্ধুত্বের নতুন এক ঠিকানা।</p>
 <p>Connect • Share • Enjoy</p>
-<button onclick="alert('Welcome to Bondhu!')">
+<button onclick="document.getElementById('register').style.display='block'; document.getElementById('register').scrollIntoView();">
 Get Started
 </button>
 </div>
 
-<footer>© 2026 Bondhu Social App</footer>
+<div class="register" id="register">
+<h2>Create Account</h2>
+<p>Bondhu-তে নতুন অ্যাকাউন্ট তৈরি করো</p>
+
+<form onsubmit="registerUser(event)">
+<input type="text" id="name" placeholder="তোমার নাম" required>
+<input type="email" id="email" placeholder="তোমার ইমেইল" required>
+<input type="password" id="password" placeholder="পাসওয়ার্ড" minlength="8" required>
+<button type="submit">Register</button>
+</form>
+
+<p id="message"></p>
+</div>
+
+<footer>
+© 2026 Bondhu Social App
+</footer>
+
+<script>
+function registerUser(event) {
+ event.preventDefault();
+ document.getElementById('message').textContent =
+ 'Registration demo সফল হয়েছে!';
+}
+</script>
 
 </body>
 </html>
