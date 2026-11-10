@@ -96,5 +96,26 @@ function registerUser(event) {
 }
 </script>
 
+
+<div class="register" id="login" style="display:block;">
+<h2>Welcome Back!</h2>
+<p>Bondhu Account Login</p>
+
+<form onsubmit="loginUser(event)">
+<input type="email" placeholder="তোমার ইমেইল" required>
+<input type="password" placeholder="পাসওয়ার্ড" required>
+<button type="submit">Login</button>
+</form>
+
+<p id="loginMessage"></p>
+</div>
+
+<script>
+function loginUser(event) {
+ event.preventDefault();
+ document.getElementById('loginMessage').textContent =
+ 'Login Demo সফল হয়েছে!';
+}
+</script>
 </body>
 </html>
