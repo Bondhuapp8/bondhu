@@ -117,5 +117,27 @@ function loginUser(event) {
  'Login Demo সফল হয়েছে!';
 }
 </script>
+<div id="login" style="display:none;">
+  <h2>Welcome Back to Bondhu</h2>
+  <input type="email" id="loginEmail" placeholder="Enter your Email">
+  <input type="password" id="loginPassword" placeholder="Enter your Password">
+  <button onclick="loginUser()">Login</button>
+</div>
+<script>
+function loginUser() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const savedEmail = localStorage.getItem("userEmail");
+  const savedPassword = localStorage.getItem("userPassword");
+
+  if (email === savedEmail && password === savedPassword) {
+    alert("Login Successful! Welcome to Bondhu");
+  } else {
+    alert("Wrong Email or Password!");
+  }
+}
+</script>
 </body>
+
 </html>
