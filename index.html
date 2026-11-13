@@ -127,6 +127,7 @@ function registerUser(event) {
   <h3>My Profile</h3>
 <p>নাম: <span id="profileName"></span></p>
 <p>ইমেইল: <span id="profileEmail"></span></p>
+  <button onclick="editProfile()">Edit Profile</button>
 </div>
 
 <script>
@@ -163,6 +164,16 @@ localStorage.getItem('userEmail');
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('login').style.display = 'block';
   document.getElementById('loginMessage').textContent = '';
+}
+ function editProfile() {
+  const newName = prompt('তোমার নতুন নাম লিখো:');
+
+  if (newName && newName.trim() !== '') {
+    localStorage.setItem('userName', newName.trim());
+
+    document.getElementById('welcomeName').textContent = newName.trim();
+    document.getElementById('profileName').textContent = newName.trim();
+  }
 }
 
 </script>
