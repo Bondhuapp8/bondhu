@@ -134,6 +134,7 @@ style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
 <p>নাম: <span id="profileName"></span></p>
 <p>ইমেইল: <span id="profileEmail"></span></p>
   <button onclick="editProfile()">Edit Profile</button>
+  <button onclick="changeProfilePicture()">Change Profile Picture</button>
 </div>
 
 <script>
@@ -170,13 +171,9 @@ if (savedPicture) {
    document.getElementById('loginMessage').textContent =
    'Wrong Email or Password!';
  }
-}
- function logoutUser() {
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login').style.display = 'block';
-  document.getElementById('loginMessage').textContent = '';
-}
- function uploadProfilePicture(event) {
+
+ }
+function uploadProfilePicture(event) {
   const file = event.target.files[0];
 
   if (file) {
@@ -189,6 +186,17 @@ if (savedPicture) {
 
     reader.readAsDataURL(file);
   }
+}
+
+function changeProfilePicture() {
+  document.getElementById('pictureUpload').click();
+}
+
+
+ function logoutUser() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+  document.getElementById('loginMessage').textContent = '';
 }
  function editProfile() {
   const newName = prompt('তোমার নতুন নাম লিখো:');
