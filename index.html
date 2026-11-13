@@ -120,6 +120,10 @@ function registerUser(event) {
 
 <p id="loginMessage"></p>
 </div>
+ <div id="dashboard" style="display:none;">
+<h2>স্বাগতম, <span id="welcomeName"></span>!</h2>
+<p>Bondhu App-এ তোমাকে স্বাগতম।</p>
+</div>
 
 <script>
 
@@ -135,6 +139,12 @@ function loginUser(event) {
  if (email === savedEmail && password === savedPassword) {
    document.getElementById('loginMessage').textContent =
    'Login Successful! Welcome to Bondhu';
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+
+document.getElementById('welcomeName').textContent =
+localStorage.getItem('userName');
+
  } else {
    document.getElementById('loginMessage').textContent =
    'Wrong Email or Password!';
@@ -144,7 +154,7 @@ function loginUser(event) {
 </script>
 
  
-</script>
+
 </body>
 
 </html>
