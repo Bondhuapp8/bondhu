@@ -125,6 +125,12 @@ function registerUser(event) {
 <p>Bondhu App-এ তোমাকে স্বাগতম।</p>
   <button onclick="logoutUser()">Logout</button>
   <h3>My Profile</h3>
+  <img id="profilePicture" src="" 
+style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
+
+<br>
+
+<input type="file" id="pictureUpload" accept="image/*" onchange="uploadProfilePicture(event)">
 <p>নাম: <span id="profileName"></span></p>
 <p>ইমেইল: <span id="profileEmail"></span></p>
   <button onclick="editProfile()">Edit Profile</button>
@@ -154,6 +160,11 @@ localStorage.getItem('userName');
 
 document.getElementById('profileEmail').textContent =
 localStorage.getItem('userEmail');
+  const savedPicture = localStorage.getItem('profilePicture');
+
+if (savedPicture) {
+  document.getElementById('profilePicture').src = savedPicture;
+}
 
  } else {
    document.getElementById('loginMessage').textContent =
@@ -164,6 +175,20 @@ localStorage.getItem('userEmail');
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('login').style.display = 'block';
   document.getElementById('loginMessage').textContent = '';
+}
+ function uploadProfilePicture(event) {
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      localStorage.setItem('profilePicture', reader.result);
+      document.getElementById('profilePicture').src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+  }
 }
  function editProfile() {
   const newName = prompt('তোমার নতুন নাম লিখো:');
