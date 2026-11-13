@@ -124,6 +124,9 @@ function registerUser(event) {
 <h2>স্বাগতম, <span id="welcomeName"></span>!</h2>
 <p>Bondhu App-এ তোমাকে স্বাগতম।</p>
   <button onclick="logoutUser()">Logout</button>
+  <h3>My Profile</h3>
+<p>নাম: <span id="profileName"></span></p>
+<p>ইমেইল: <span id="profileEmail"></span></p>
 </div>
 
 <script>
@@ -145,6 +148,11 @@ function loginUser(event) {
 
 document.getElementById('welcomeName').textContent =
 localStorage.getItem('userName');
+  document.getElementById('profileName').textContent =
+localStorage.getItem('userName');
+
+document.getElementById('profileEmail').textContent =
+localStorage.getItem('userEmail');
 
  } else {
    document.getElementById('loginMessage').textContent =
