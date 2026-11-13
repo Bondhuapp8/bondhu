@@ -123,6 +123,7 @@ function registerUser(event) {
  <div id="dashboard" style="display:none;">
 <h2>স্বাগতম, <span id="welcomeName"></span>!</h2>
 <p>Bondhu App-এ তোমাকে স্বাগতম।</p>
+  <button onclick="logoutUser()">Logout</button>
 </div>
 
 <script>
@@ -149,6 +150,11 @@ localStorage.getItem('userName');
    document.getElementById('loginMessage').textContent =
    'Wrong Email or Password!';
  }
+}
+ function logoutUser() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+  document.getElementById('loginMessage').textContent = '';
 }
 
 </script>
