@@ -213,6 +213,7 @@ function changeProfilePicture() {
 <div id="posts">
   <h2>Bondhu Community</h2>
   <textarea id="postText" placeholder="তোমার মনের কথা লিখো..."></textarea>
+ <input type="file" id="postImage" accept="image/*">
   <button onclick="createPost()">Post</button>
   <div id="postList"></div>
 </div>
@@ -224,25 +225,63 @@ function displayPosts() {
   postList.innerHTML = '';
 
   posts.forEach(function(post) {
-    const item = document.createElement('p');
-    item.textContent = post;
+    const item = document.createElement('div');
+
+    if (typeof post === 'string') {
+      item.textContent = post;
+    } else {
+      const text = document.createElement('p');
+      text.textContent = post.text;
+      item.appendChild(text);
+
+      if (post.image) {
+        const img = document.createElement('img');
+        img.src = post.image;
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        item.appendChild(img);
+      }
+    }
+
     postList.prepend(item);
   });
 }
 
 function createPost() {
   const postText = document.getElementById('postText').value;
+  const imageInput = document.getElementById('postImage');
+  const imageFile = imageInput.files[0];
 
-  if (postText.trim() === '') {
-    alert('কিছু লিখে Post করো!');
+  if (postText.trim() === '' && !imageFile) {
+    alert('কিছু লিখো অথবা ছবি নির্বাচন করো!');
     return;
   }
 
-  posts.push(postText);
-  localStorage.setItem('bondhuPosts', JSON.stringify(posts));
+  function savePost(imageData = '') {
+    posts.push({
+      text: postText,
+      image: imageData
+    });
 
-  displayPosts();
-  document.getElementById('postText').value = '';
+    localStorage.setItem('bondhuPosts', JSON.stringify(posts));
+
+    document.getElementById('postText').value = '';
+    imageInput.value = '';
+
+    displayPosts();
+  }
+
+  if (imageFile) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      savePost(e.target.result);
+    };
+
+    reader.readAsDataURL(imageFile);
+  } else {
+    savePost();
+  }
 }
 
 displayPosts();
