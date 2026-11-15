@@ -210,8 +210,29 @@ function changeProfilePicture() {
 }
 
 </script>
+<div id="posts">
+  <h2>Bondhu Community</h2>
+  <textarea id="postText" placeholder="তোমার মনের কথা লিখো..."></textarea>
+  <button onclick="createPost()">Post</button>
+  <div id="postList"></div>
+</div>
+ <script>
+function createPost() {
+  const postText = document.getElementById('postText').value;
 
- 
+  if (postText.trim() === '') {
+    alert('কিছু লিখে Post করো!');
+    return;
+  }
+
+  const post = document.createElement('p');
+  post.textContent = postText;
+
+  document.getElementById('postList').prepend(post);
+
+  document.getElementById('postText').value = '';
+}
+</script>
 
 </body>
 
