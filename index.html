@@ -216,7 +216,20 @@ function changeProfilePicture() {
   <button onclick="createPost()">Post</button>
   <div id="postList"></div>
 </div>
- <script>
+<script>
+let posts = JSON.parse(localStorage.getItem('bondhuPosts')) || [];
+
+function displayPosts() {
+  const postList = document.getElementById('postList');
+  postList.innerHTML = '';
+
+  posts.forEach(function(post) {
+    const item = document.createElement('p');
+    item.textContent = post;
+    postList.prepend(item);
+  });
+}
+
 function createPost() {
   const postText = document.getElementById('postText').value;
 
@@ -225,15 +238,15 @@ function createPost() {
     return;
   }
 
-  const post = document.createElement('p');
-  post.textContent = postText;
+  posts.push(postText);
+  localStorage.setItem('bondhuPosts', JSON.stringify(posts));
 
-  document.getElementById('postList').prepend(post);
-
+  displayPosts();
   document.getElementById('postText').value = '';
 }
-</script>
 
+displayPosts();
+</script>
 </body>
 
 </html>
