@@ -55,6 +55,16 @@ footer {
  margin-top: 40px;
 }
 #message { color: green; }
+ @keyframes heartFloat {
+  0% {
+    transform: translate(-50%, 0) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -100px) scale(1.8);
+    opacity: 0;
+  }
+}
 </style>
 </head>
 <body>
@@ -220,32 +230,95 @@ function changeProfilePicture() {
 <script>
 let posts = JSON.parse(localStorage.getItem('bondhuPosts')) || [];
 
+
 function displayPosts() {
   const postList = document.getElementById('postList');
   postList.innerHTML = '';
 
+  posts = posts.map(function(post) {
+    if (typeof post === 'string') {
+      return {
+        text: post,
+        image: '',
+        reaction: ''
+      };
+    }
+    return post;
+  });
+
   posts.forEach(function(post) {
     const item = document.createElement('div');
+    item.style.position = 'relative';
 
-    if (typeof post === 'string') {
-      item.textContent = post;
-    } else {
-      const text = document.createElement('p');
-      text.textContent = post.text;
-      item.appendChild(text);
+    const text = document.createElement('p');
+    text.textContent = post.text || '';
+    item.appendChild(text);
 
-      if (post.image) {
-        const img = document.createElement('img');
-        img.src = post.image;
-        img.style.maxWidth = '100%';
-        img.style.height = 'auto';
-        item.appendChild(img);
-      }
+    if (post.image) {
+      const img = document.createElement('img');
+      img.src = post.image;
+      img.style.maxWidth = '100%';
+      img.style.height = 'auto';
+      item.appendChild(img);
     }
+
+    const reactions = ['❤️', '💔', '😢', '😂', '😡'];
+    const reactionButtons = [];
+
+    reactions.forEach(function(emoji) {
+      const btn = document.createElement('button');
+      btn.textContent = emoji;
+      btn.style.fontSize = '22px';
+      btn.style.margin = '4px';
+
+      btn.style.backgroundColor =
+        post.reaction === emoji ? '#ffd6d6' : '';
+
+      btn.onclick = function() {
+        post.reaction =
+          post.reaction === emoji ? '' : emoji;
+
+        localStorage.setItem(
+          'bondhuPosts',
+          JSON.stringify(posts)
+        );
+
+        reactionButtons.forEach(function(button, i) {
+          button.style.backgroundColor =
+            reactions[i] === post.reaction
+              ? '#ffd6d6'
+              : '';
+        });
+
+        if (post.reaction) {
+          const floating = document.createElement('span');
+          floating.textContent = post.reaction;
+          floating.style.position = 'absolute';
+          floating.style.left = '50%';
+          floating.style.top = '50%';
+          floating.style.fontSize = '35px';
+          floating.style.pointerEvents = 'none';
+          floating.style.animation =
+            'heartFloat 1s ease-out forwards';
+
+          item.appendChild(floating);
+          setTimeout(() => floating.remove(), 1000);
+        }
+      };
+
+      reactionButtons.push(btn);
+      item.appendChild(btn);
+    });
 
     postList.prepend(item);
   });
+
+  localStorage.setItem(
+    'bondhuPosts',
+    JSON.stringify(posts)
+  );
 }
+
 
 function createPost() {
   const postText = document.getElementById('postText').value;
