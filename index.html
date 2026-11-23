@@ -261,7 +261,9 @@ function displayPosts() {
       img.style.height = 'auto';
       item.appendChild(img);
     }
-
+if (!post.comments) {
+  post.comments = [];
+}
     const reactions = ['❤️', '💔', '😢', '😂', '😡'];
     const reactionButtons = [];
 
@@ -309,7 +311,44 @@ function displayPosts() {
       reactionButtons.push(btn);
       item.appendChild(btn);
     });
+const commentBox = document.createElement('input');
+commentBox.placeholder = 'Write a comment...';
+commentBox.style.width = '70%';
+commentBox.style.padding = '8px';
 
+const commentButton = document.createElement('button');
+commentButton.textContent = '💬 Comment';
+
+const commentList = document.createElement('div');
+
+post.comments.forEach(function(comment) {
+  const p = document.createElement('p');
+  p.textContent = '💬 ' + comment;
+  commentList.appendChild(p);
+});
+
+commentButton.onclick = function() {
+  const comment = commentBox.value.trim();
+
+  if (comment) {
+    post.comments.push(comment);
+
+    localStorage.setItem(
+      'bondhuPosts',
+      JSON.stringify(posts)
+    );
+
+    const p = document.createElement('p');
+    p.textContent = '💬 ' + comment;
+    commentList.appendChild(p);
+
+    commentBox.value = '';
+  }
+};
+
+item.appendChild(commentBox);
+item.appendChild(commentButton);
+item.appendChild(commentList);
     postList.prepend(item);
   });
 
