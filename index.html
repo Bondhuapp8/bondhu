@@ -325,6 +325,20 @@ post.comments.forEach(function(comment) {
   const p = document.createElement('p');
   p.textContent = '💬 ' + comment;
   commentList.appendChild(p);
+ const replyButton = document.createElement('button');
+replyButton.textContent = '↩️ Reply';
+replyButton.style.marginLeft = '8px';
+replyButton.onclick = function() {
+  const reply = prompt('Write a reply:');
+
+  if (reply && reply.trim()) {
+    const replyText = document.createElement('p');
+    replyText.textContent = '↳ ' + reply.trim();
+    replyText.style.marginLeft = '25px';
+    commentList.appendChild(replyText);
+  }
+};
+commentList.appendChild(replyButton);
 });
 
 commentButton.onclick = function() {
