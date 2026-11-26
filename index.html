@@ -321,17 +321,29 @@ commentButton.textContent = '💬 Comment';
 
 const commentList = document.createElement('div');
 
-post.comments.forEach(function(comment) {
+post.comments.forEach(function(comment, commentIndex) {
   const p = document.createElement('p');
   p.textContent = '💬 ' + comment;
   commentList.appendChild(p);
  const replyButton = document.createElement('button');
 replyButton.textContent = '↩️ Reply';
 replyButton.style.marginLeft = '8px';
+ const replyKey = 'bondhuReplies_' + posts.indexOf(post) + '_' + commentIndex;
 replyButton.onclick = function() {
   const reply = prompt('Write a reply:');
 
   if (reply && reply.trim()) {
+    const savedReplies = JSON.parse(
+      localStorage.getItem(replyKey) || '[]'
+    );
+
+    savedReplies.push(reply.trim());
+
+    localStorage.setItem(
+      replyKey,
+      JSON.stringify(savedReplies)
+    );
+
     const replyText = document.createElement('p');
     replyText.textContent = '↳ ' + reply.trim();
     replyText.style.marginLeft = '25px';
@@ -339,6 +351,16 @@ replyButton.onclick = function() {
   }
 };
 commentList.appendChild(replyButton);
+ const oldReplies = JSON.parse(
+  localStorage.getItem(replyKey) || '[]'
+);
+
+oldReplies.forEach(function(oldReply) {
+  const oldReplyText = document.createElement('p');
+  oldReplyText.textContent = '↳ ' + oldReply;
+  oldReplyText.style.marginLeft = '25px';
+  commentList.appendChild(oldReplyText);
+});
 });
 
 commentButton.onclick = function() {
@@ -357,6 +379,7 @@ commentButton.onclick = function() {
     commentList.appendChild(p);
 
     commentBox.value = '';
+   displayPosts();
   }
 };
 
